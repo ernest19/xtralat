@@ -1,0 +1,428 @@
+{% load humanize %}
+
+
+<style type="text/css">
+    .selected{
+        background-color: red:;
+    }
+    .highcharts-credits{
+        display: none!important;
+    }
+.modal-dialog {
+          max-width: 600px; /* New width for default modal */
+        }
+</style>
+
+<div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-primary mini-stat position-relative">
+                        <div class="card-body">
+                            <div class="mini-stat-desc">
+                                <!-- <h6 class="text-uppercase verti-label text-white-50"> FARM SIZE</h6> -->
+                                <div class="text-white">
+                                    <h6 class="text-uppercase mt-0 text-white-50">Total Momo </h6>
+                                    <h3 class="mb-3 mt-0">{% if not tltmomo == None %} {{tltmomo | intcomma}} {% else %} 0 {% endif %}</h3>
+                                    <!-- <div class=""><span class="badge badge-light text-info">+11% </span><span class="ml-2">farm sizes are under cultivation</span></div> -->
+                                </div>
+                                <div class="mini-stat-icon"><i class="mdi mdi-cube-outline display-2"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-danger mini-stat position-relative">
+                        <div class="card-body">
+                            <div class="mini-stat-desc">
+                                <!-- <h6 class="text-uppercase verti-label text-white-50">Revenue</h6> -->
+                                <div class="text-white">
+                                    <h6 class="text-uppercase mt-0 text-white-50">TOTAL EVD</h6>
+                                     <h3 class="mb-3 mt-0">{% if not tltevd == None %}  {{tltevd | intcomma}} {% else %} 0 {% endif %}</h3>
+                                    <!-- <div class=""><span class="badge badge-light text-danger">-29% </span><span class="ml-2">of corporates have registered</span></div> -->
+                                </div>
+                                <div class="mini-stat-icon"><i class="mdi mdi-buffer display-2"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning mini-stat position-relative">
+                        <div class="card-body">
+                            <div class="mini-stat-desc">
+                                <!-- <h6 class="text-uppercase verti-label text-white-50">Av. Price</h6> -->
+                                <div class="text-white">
+                                    <h6 class="text-uppercase mt-0 text-white-50">TOTAL USERS</h6>
+                                    <h3 class="mb-3 mt-0">{{tltuser}}</h3>
+                                    <!-- <div class=""><span class="badge badge-light text-primary">0% </span><span class="ml-2">of associations have registered</span></div> -->
+                                </div>
+                                <div class="mini-stat-icon"><i class="mdi mdi-tag-text-outline display-2"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-success mini-stat position-relative">
+                        <div class="card-body">
+                            <div class="mini-stat-desc">
+                                <!-- <h6 class="text-uppercase verti-label text-white-50">Pr. Sold</h6> -->
+                                <div class="text-white">
+                                    <h6 class="text-uppercase mt-0 text-white-50">Active Users</h6>
+                                    <h3 class="mb-3 mt-0">{{tlstatus}}</h3>
+                                    <!-- <div class=""><span class="badge badge-light text-info">+89% </span><span class="ml-2">of farmers have registered</span></div> -->
+                                </div>
+                                <div class="mini-stat-icon"><i class="mdi mdi-briefcase-check display-2"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <!-- <h4 class="mt-0 header-title mb-4">DISTRIBUTION OF AGE RANGE</h4> -->
+                                    <div id="poscontainer" class="dashboard-charts morris-charts"></div>
+                                </div>
+                            </div><!-- end row -->
+                        </div>
+                    </div>
+                </div><!-- end col -->
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <h4 class="mt-0 header-title mb-4"> AVERAGE FARM AGE</h4> -->
+                            <div id="pos" class="dashboard-charts morris-charts"></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card m-b-20" style="height: 44vh;">
+                        <div class="card-body">
+
+                              <div id="EVD" class="dashboard-charts morris-charts"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-xl-6">
+                    <div class="card m-b-20" >
+                        <div class="card-body">
+                          
+                            <div id="momocont" class=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mt-0 header-title mb-4">BUSINESS SECTOR DISTRIBUTION</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0" id="usertbl">
+                                    <thead>
+                                        <tr>
+                                            <th >(#) POS Id</th>
+                                            <th>Name</th>
+                                            <th >Territory</th>
+                                            <th >Telephone</th>
+                                            <th >Business Name</th>
+                                            <th >Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                        <tr id="{{user.pos }}" data-toggle="modal" data-target="#myModal" >
+                                            <td>
+                                               {{user.pos}}
+                                            </td>
+                                            <td>{{user.owner_first_name}}  {{user.owner_last_name}} </td>
+                                            <td>{{user.territory_id}}</td>
+                                            <td>{{user.owner_telephone}}</td>
+                                            <td>
+                                               {{user.business_name}}
+                                            </td>
+                                            <td>
+                                               {{user.category}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <!--  <h4 class="modal-title">Modal Header</h4> -->
+      </div>
+      <div class="modal-body" id="poscont">
+       <!--  <p>Some text in the modal.</p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+               
+            </div><!-- end row -->
+
+
+            <script type="text/javascript">
+                 var table = $("#usertbl").DataTable();
+
+
+
+ 
+                $('#usertbl tbody').on( 'click', 'tr', function () {
+                    if ( $(this).hasClass('selected') ) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        table.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+
+                       
+
+                        $.get('/posdetails/?pos='+$(this).attr("id"), function(data) {
+                          
+                            $('#poscont').html(data);
+
+                        });
+                    }
+                } );
+
+
+
+
+
+                 Highcharts.chart('poscontainer', {
+                        chart: {
+                            type: 'spline'
+                        },
+                        title: {
+                            text: 'Knowledge of Selling Products Using MoMo'
+                        },
+                        // subtitle: {
+                        //     text: 'Source: WorldClimate.com'
+                        // },
+                        xAxis: {
+                            categories: {{terrarr|safe}},
+                            title: {
+                                text: 'TERRITORY'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'POS COUNT'
+                            }
+                        },
+                        plotOptions: {
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: false
+                            }
+                        },
+                        series: [{
+                            name: 'Yes',
+                            data:{{yesarr}}
+                        }, 
+
+                        {
+                            name: 'No',
+                            data: {{noarr}}
+                        }
+
+                        ]
+                    });
+
+
+
+
+Highcharts.chart('pos', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'POS PER TERRITORY'
+    },
+    // subtitle: {
+    //     text: 'Source: <a href="http://en.wikipedia.org/wiki/List_of_cities_proper_by_population">Wikipedia</a>'
+    // },
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        },
+        title: {
+            text: 'TERRITORY'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'TOTAL'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'Population in 2017: <b>{point.y:.1f} millions</b>'
+    },
+    series: [{
+        name: 'Population',
+        data: {{posarr|safe}},
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
+
+
+
+
+
+  Highcharts.chart('EVD', {
+    chart: {
+        type: 'spline'
+    },
+    title: {
+        text: 'TOTAL EVD AMOUNT OVER TERRITORY'
+    },
+    // subtitle: {
+    //     text: 'Source: WorldClimate.com'
+    // },
+    xAxis: {
+        categories: {{terrarr|safe}},
+        title: {
+            text: 'TERRITORY'
+        }
+    },
+    yAxis: {
+        title: {
+            text: 'TOTAL EVD'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'TOTAL',
+        data:{{evdarr}}
+    }, 
+
+    // {
+    //     name: 'No',
+    //     data: {{noarr}}
+    // }
+
+    ]
+});
+
+
+
+
+
+
+
+  Highcharts.chart('momocont', {
+                        chart: {
+                            type: 'spline'
+                        },
+                        title: {
+                            text: 'TOTAL MOMO AMOUNT OVER TERRITORY'
+                        },
+                        // subtitle: {
+                        //     text: 'Source: WorldClimate.com'
+                        // },
+                        xAxis: {
+                            categories: {{terrarr|safe}},
+                            title: {
+                                text: 'TERRITORY'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'TOTAL MOMO AMOUNT'
+                            }
+                        },
+                        plotOptions: {
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: false
+                            }
+                        },
+                        series: [{
+                            name: 'TOTAL',
+                            data:{{momoarr|safe}}
+                        }, 
+
+                        // {
+                        //     name: 'No',
+                        //     data: {{noarr}}
+                        // }
+
+                        ]
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </script>

@@ -1,0 +1,91 @@
+<div id="results" >
+
+
+
+
+
+	
+</div>
+
+
+<script type="text/javascript">
+	
+
+
+
+Highcharts.chart('results', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'DISTRIBUTION OF POS PER CATEGORY'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [
+        // {
+        //     name: 'Chrome',
+        //     y: 61.41,
+        //     sliced: true,
+        //     selected: true
+        // },
+
+        {% for aa in arr%}
+         {
+            name: '{{ aa.0  | safe}}',
+            y: {{ aa.1 | safe  }}
+        },
+
+        {% endfor %}
+
+
+
+        ]
+    }]
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

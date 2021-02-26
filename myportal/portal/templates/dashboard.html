@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+
+    
+    <link rel="stylesheet" href="/static/plugins/morris/morris.css">
+    <!--Chartist Chart CSS -->
+    <link rel="stylesheet" href="/static/plugins/chartist/css/chartist.min.css">  
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">  
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highcharts/7.2.0/css/highcharts.css">
+
+    <style type="text/css">
+        .loader {
+    position: absolute;
+    z-index: 9999999;
+    background: rgba(255, 255, 255, 0.75);
+    width: 100%;
+    height: 100vh;
+    top: 0vh;
+}
+
+.loadbar-img {
+    z-index: 9999999;
+    width: 10%;
+    margin: 45vh 38%;
+    height: 20vh;
+}
+
+.hidden{
+
+    display: none;
+}
+
+
+
+
+
+
+    </style>
+{% endblock%}
+
+
+{% block body %}
+
+
+
+    <div id='loadbar' class="loader ">
+    <img class="loadbar-img" src="/static/assets//images/users/preloader.gif">
+    </div>
+    <div class="container-fluid">
+        <div class="page-content-wrapper mymargin" >
+
+            <div class="row">
+            <div class="col-md-3  card m-b-20">
+              <div class="card-body">
+                <div class="card-body">
+
+                    <div class="form-group">
+                      <label for="usr">Start Date:</label>
+                      <input type="date" class="form-control" id="startdate">
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="usr">End Date:</label>
+                      <input type="date" class="form-control" id="enddate">
+                    </div>
+
+ 
+                   
+                        <button id="filter" class="btn btn-success ">Filter</button>
+              
+                    
+                </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-9" id="results_container">
+                
+            
+            </div>
+            </div>
+        </div><!-- end page content-->
+    </div><!-- container-fluid -->
+
+
+
+{% endblock%}
+
+
+
+{% block js %}
+
+
+<!-- Peity JS -->
+<script src="/static/plugins/peity/jquery.peity.min.js"></script>
+<script src="/static/plugins/morris/morris.min.js"></script>
+<script src="/static/plugins/raphael/raphael-min.js"></script>
+<!--Chartist Chart-->
+
+<script src="/static/rootApp/admin/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+    
+
+    $.get('/summary/', function(data) {
+      
+        $('#results_container').html(data);
+        $('#loadbar').addClass("hidden")
+    });
+
+
+    $("#filter").click(function(){
+        $('#loadbar').removeClass("hidden")
+          $.get('/summary/?startdate='+ $("#startdate").val() + "&enddate="+ $("#enddate").val(), function(data) {
+            $('#results_container').html(data);
+
+            $('#loadbar').addClass("hidden")
+            
+          });
+
+    })
+
+</script>
+
+
+{% endblock%}

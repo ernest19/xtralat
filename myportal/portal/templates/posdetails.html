@@ -1,0 +1,42 @@
+{% load humanize %} 
+
+ 
+ <h4 class="mt-0 header-title mb-4">Transaction Details</h4>
+ <div class="table-responsive">
+    <table class="table table-hover mb-0" id="postbl">
+        <thead>
+            <tr>
+                <th >(#) POS Id</th>
+                <th>User Name</th>
+                <th >EVD Amount </th>
+                <th >Momo Amount</th>
+                <th >Event Date</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for aa in users %}
+            <tr id="{{aa.pos_id}}" data-toggle="modal" data-target="#myModal" >
+                <td>
+                   {{aa.pos_id}}
+                </td>
+                <td>{{aa.user.full_name}}</td>
+                <td>{% if aa.enter_evd_amount %} {{aa.enter_evd_amount | intcomma }} {% else %} 0 {% endif %} </td>
+                <td>{% if aa.momo_amount %}  {{aa.momo_amount | intcomma }} {% else %} 0 {% endif %} </td>
+                <td>
+                   {{aa.event_date}}
+                </td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+
+    $('#postbl').dataTable( {
+  "lengthChange": false
+});
+</script>

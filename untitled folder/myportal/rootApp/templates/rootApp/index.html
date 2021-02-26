@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<title> TRAINING PORTAL </title>
+	<link rel="stylesheet" href="/static/rootApp/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/rootApp/css/vendor.bundle.css">
+	<link rel="stylesheet" href="/static/rootApp/css/app.bundle.css">
+	<link rel="stylesheet" href="/static/rootApp/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/rootApp/css/theme-a.css">
+	<link rel="stylesheet" href="/static/rootApp/css/map.css">
+	<link rel="stylesheet" href="/static/rootApp/css/custom.css">
+
+	<link rel="stylesheet" href="/static/rootApp/css/leaflet-measure.css">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+   <link rel="stylesheet" type="text/css" href="{% static 'rootApp/leaflet/autocomplete/easy-autocomplete.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static 'rootApp/leaflet/autocomplete/easy-autocomplete.themes.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/gokertanrisever/leaflet-ruler/master/src/leaflet-ruler.css">
+
+<link rel="stylesheet" href="/static/rootApp/leaflet/L.Control.MousePosition.css">
+   <style type="text/css">
+   	#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+	}
+
+	#customers td, #customers th {
+	    border: 1px solid #ddd;
+	    padding: 8px;
+	}
+
+	#eac-container-inputsearch{
+		z-index: 999999!important;
+	}
+
+	.leaflet-control-browser-print {display: none!important;}
+
+	.leaflet-control-mouseposition{
+
+    margin-left: 50vw!important;
+	}
+
+	}
+
+.info { -webkit-print-color-adjust: exact; background: white!important} .info h4 { margin: 0 0 5px; color: #777; background: white}
+
+
+	@media print {
+		.info { -webkit-print-color-adjust: exact; background: white!important;} .info h4 { margin: 0 0 5px; color: #777; background: white}
+		.reg1 {-webkit-print-color-adjust: exact;  background-color: red!important; margin-left: 20px;}
+		.district1 { -webkit-print-color-adjust: exact; background-color: #a69!important; margin-left: 20px;}
+		.protect1 {-webkit-print-color-adjust: exact;  background-color: #aea!important; margin-left: 20px;}
+		.platn1 { -webkit-print-color-adjust: exact; background-color: #be6!important;  margin-left: 20px;}
+		.info1 { -webkit-print-color-adjust: exact; background-color: #fff!important;  list-style-type: none!important;}
+	}
+
+
+
+
+.leaflet-browser-print--manualMode-button{
+
+z-index:9999999999!important;
+
+}
+
+
+
+
+@media print {
+   #tittop {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    width: 100%;
+    z-index: 9999999999999999;
+     text-align: center; 
+    padding: 10px;
+    background: #fff;
+    font-weight: 900;
+    text-transform: capitalize;
+    margin:0;
+    font-size: 18px!important;
+	}
+
+	#arrow {
+		top:65px!important;
+		left: 10px!important;
+	}
+}
+
+@media screen
+{
+   #tittop {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    width: 100%;
+    z-index: 9999999999999999;
+     text-align: center; 
+    padding: 10px;
+    background: #fff;
+    font-weight: 900;
+    text-transform: capitalize;
+    margin:0;
+    font-size: 18px!important;
+}
+}
+
+   #tittop {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    width: 100%;
+    z-index: 9999999999999999;
+     text-align: center; 
+    padding: 10px;
+    background: #fff;
+    font-weight: 900;
+    text-transform: capitalize;
+    margin:0;
+    font-size: 18px!important;
+}
+	.grid-print-container {
+		min-width: 100vw!important;
+		margin-top: 40px!important;
+		border-top:2px solid green!important;
+		/* Firefox */
+	    height: -moz-calc(100vh - 40px) !important;
+	    /* WebKit */
+	    height: -webkit-calc(100vh - 40px) !important;
+	    /* Opera */
+	    height: -o-calc(100vh - 40px) !important;
+	    /* Standard */
+	    height: calc(100vh - 40px) !important;
+	}
+
+
+
+	.leaflet-browser-print--manualMode-button {
+		position: absolute!important;
+		top: 5px!important;
+		right: 20px!important;
+		border: none;
+	    border-radius: 5px; 
+	    padding: 5px 20px;
+    	font-size: 12px;
+	    font-weight: 400;
+	    text-transform: uppercase;
+	    letter-spacing: 0;
+	    will-change: box-shadow, transform;
+	    transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1);
+	    outline: 0;
+	    background-color: #28bebd;
+	    color: #fff;
+	    box-shadow: 0 2px 2px 0 rgba(40,190,189,.14), 0 3px 1px -2px rgba(40,190,189,.2), 0 1px 5px 0 rgba(40,190,189,.12);
+	}
+
+	.leaflet-browser-print--manualMode-button:hover {
+		background-color: #279c9c;
+		box-shadow: 0 14px 26px -12px rgba(40,190,189,.42), 0 4px 23px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(40,190,189,.2);
+	}
+
+	#arrow {
+		top:65px!important;
+		left: 10px!important;
+	}
+
+   </style>
+
+	{% block csspart %}
+	{% endblock %}
+</head>
+
+<body class="{% block classBody %} {% endblock %}">
+	<div id="app_wrapper">
+	
+		<div id="app_body" style="">
+			<div id="search_box" class="">
+				<!-- <div id="toolBox" class="col-md-12 col-xs-12">
+						<div class="">
+						<div class="legendTog">
+							<span class="">
+							        <button id="searchbtn" type="button" class="btn btn-white btn-fab animate-fab btn-fab-sm searchbtn">
+							            <i class="zmdi zmdi-menu"></i>
+							        </button>
+							    </span>
+						</div>
+						
+						<div class="searchBox" style="">
+							<div class="input-group" style="margin:0px; ">
+							   <input type="text" class="form-control" id="inputsearch" placeholder="Enter search item...">
+							    <span class="input-group-btn">
+							    
+							    </span>
+							</div>
+						</div>
+					</div>
+				</div>
+ -->
+				<div id="resultBox" class="col-md-12">
+					<div class="row">	
+						<div class="col-md-12 col-xs-12">	
+							<div class="col-md-12 col-xs-12" style="border-bottom: 1px solid #e1e1e1;">								
+								<h2 style="float: left; margin-top: 10px;"> Legend</h2>		
+								<button id="close" type="button" class="btn  btn-fab animate-fab btn-fab-sm " style="float:right;background: transparent;">
+									<i class="zmdi zmdi-close-circle-o"></i>
+						        </button>		
+							</div>
+					        <div class="col-xs-12 col-md-12" style="padding-top:15px; ">
+
+								<div class="accordion" id="multiple" data-allow-toggle="true" data-allow-multiple="true">
+								    <div class="accordion__group">
+								        <h3 class="accordion__header">
+								            <button class="accordion__trigger" id="multiple-trigger-1" aria-controls="multiple-panel-1" aria-expanded="true">
+								                <span class="accordion__title">Admin Boundary</span>
+								                <span class="accordion__arrow" aria-hidden="true"></span>
+								            </button>
+								        </h3>
+								        <div class="accordion__panel accordion__panel_expanded" role="region" id="multiple-panel-1" aria-labelledby="multiple-trigger-1">
+								            <div class="accordion__panel-inner">
+
+								            	<ul>
+
+								            		<li>	
+								            		
+								            			  <input type="checkbox" id="regcheck" name="" checked=""><span class="check"></span>
+
+								            			  <i class="input-helper"></i> 	Region
+								                       
+														 <span class="legendbox reg"> </span>
+								            		</li>
+
+								            		<li>	
+								            		
+								            			  <input type="checkbox" id="districtcheck" name="" ><span class="check"></span>
+
+								            			  <i class="input-helper"></i> Teritory
+								                       
+														<span class="legendbox district"> </span>
+								            		</li>
+								            		
+
+
+
+
+								            	</ul>
+
+								            </div><!-- .accordion__panel-inner -->
+								        </div><!-- .accordion__panel -->
+								    </div><!-- .accordion__group -->
+								    <div class="accordion__group">
+								        <h3 class="accordion__header">
+								            <button class="accordion__trigger" id="multiple-trigger-2" aria-controls="multiple-panel-2" aria-expanded="false">
+								                <span class="accordion__title"> Layers</span>
+								                <span class="accordion__arrow" aria-hidden="true"></span>
+								            </button>
+								        </h3>
+								        <div class="accordion__panel" role="region" id="multiple-panel-2" aria-labelledby="multiple-trigger-2">
+								            <div class="accordion__panel-inner">
+
+								            	<ul>
+
+								            		<li>	
+								            		
+								            			  <input type="checkbox" id="protectcheck" name="" ><span class="check"></span>
+
+								            			  <i class="input-helper"></i> POS
+								                       	<span class="legendbox1 protect"> </span>
+													
+								            		</li>
+								            		<!-- <li>	
+								            		
+								            			  <input type="checkbox" id="plantationcheck" name="" ><span class="check"></span>
+
+								            			  <i class="input-helper"></i> Plantation
+								                       
+														<span class="legendbox platn"> </span>
+								            		</li>
+ -->
+<!-- 
+								            		<li>	
+								            		
+								            			  <input type="checkbox" id="districtcheck" name="" ><span class="check"></span>
+
+								            			  <i class="input-helper"></i> District Boundary
+								                       
+													
+								            		</li> -->
+								            		
+
+
+
+
+								            	</ul>
+
+
+
+								               <!--  <ul class="checklist">
+								                    <li>
+								                        <span class="checkbox">
+								                            <label style="">
+								                                <input type="checkbox" value="" id="task_0"><span class="check"></span>
+								                                <i class="input-helper"></i> Region Boundary
+								                            </label>
+								                        </span>
+								                    </li>
+								                    <li>
+								                        <span class="checkbox">
+								                            <label style="">
+								                                <input type="checkbox" value="" id="task_1">
+								                                <i class="input-helper"></i> District Boundary
+								                            </label>
+								                        </span>
+								                    </li>
+        										</ul> -->
+								            </div><!-- .accordion__panel-inner -->
+								        </div><!-- .accordion__panel -->
+								    </div><!-- .accordion__group -->
+								  
+								</div><!-- .accordion -->
+			        	
+					        </div>						
+						</div>		
+					</div>
+					
+				</div>
+			</div>
+
+			<div id="mapTools" class="mapTools">
+
+
+				<!-- <button id="layerbtn" type="button" class="btn btn-purple btn-fab animate-fab btn-fab-sm mapTools-btn">
+		            <i class="zmdi zmdi-layers"></i>
+		        </button> -->
+		        
+		        <button id="zoomin" type="button" class="btn btn-purple btn-fab animate-fab btn-fab-sm mapTools-btn">
+		            <i class="zmdi zmdi-plus"></i>
+		        </button>
+
+		        <button id="zoomout" type="button" class="btn btn-purple btn-fab animate-fab btn-fab-sm mapTools-btn">
+		            <i class="zmdi zmdi-minus"></i>
+
+
+		       <button  type="button" class="btn btn-purple btn-fab animate-fab btn-fab-sm mapTools-btn"  data-toggle="modal" data-target="#myModal">
+		            <i class="zmdi zmdi-print"></i>
+
+		        </button>
+			</div>
+
+			<div id="mapid" style="width:100% ; height:100vh; ">
+
+				
+			   <!--  <div class="gmap_canvas"><iframe style="width: 100%; height:100%;" id="gmap_canvas" src="https://maps.google.com/maps?q=university%20of%20ghana&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
+			    <style>
+			    .mapouter {position: relative;text-align: right;height: 93vh;width: 100%;}
+			    .gmap_canvas {overflow: hidden;background: none !important;height: 93vh;width: 100%;}
+			    </style> -->
+			</div>
+		</div>
+		{% block sideMenu %}
+		{% endblock %}
+
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Map Title</h4>
+      </div>
+      <div class="modal-body">
+
+      	<div class="form-group label-floating is-empty">
+	        <label class="control-label">Enter a title for the map</label>
+	        <input  id="mapotitle"  type="text" class="form-control">
+	    </div>
+       
+       	<!-- <input id="mapotitle" type="textbox" name="title"> -->
+
+        <button type="button"  data-dismiss="modal"  id="custom_print_button" class="btn btn-default" > <i class="zmdi zmdi-print"></i> PROCEED TO PRINT</button>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+	</div>
+
+	<script src="/static/rootApp/js/jquery.min.js"></script>
+	<script src="/static/rootApp/js/popper.js"></script>
+	<script src="/static/rootApp/js/bootstrap.min.js"></script>
+	<script src="/static/rootApp/js/vendor.bundle.js"></script>
+	<script src="/static/rootApp/js/app.bundle.js"></script>
+	<script src="/static/rootApp/js/main.js"></script>
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+   <script type="text/javascript" src = "{% static 'rootApp/leaflet/autocomplete/jquery.easy-autocomplete.js' %}" ></script>
+<script type="text/javascript" src = "{% static 'rootApp/leaflet/leaflet_cor/Leaflet.Coordinates-0.1.5.src.js' %}" ></script>
+	
+<script src="https://cdn.rawgit.com/gokertanrisever/leaflet-ruler/master/src/leaflet-ruler.js"></script>
+
+<script src="/static/rootApp/leaflet/L.Control.MousePosition.js"></script>
+
+<script src="/static/rootApp/leaflet/leaflet.browser.print.min.js"></script>
+<script src="https://unpkg.com/togeojson@0.14.2"></script>
+<script src="/static/rootApp/js/leaflet.filelayer.js"></script>
+
+<script src="/static/rootApp/js/leaflet-measure.js"></script>
+
+
+
+
+
+<script src="/static/rootApp/js/map.js"></script>
+	<script src="/static/rootApp/js/admin.js"></script>
+	<script src="/static/rootApp/js/authentication.js"></script>
+
+<script type="text/javascript">
+	
+
+$(function() {
+  $(".leaflet-browser-print--manualMode-button").addClass("btn");
+  $(".leaflet-browser-print--manualMode-button").addClass("btn-green btn-sm");
+});
+</script>
+
+	{% block js %}
+	{% endblock %}
+</body>
+
+</html>
